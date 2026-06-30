@@ -1,5 +1,7 @@
 # PRScout
 
+[![CI](https://github.com/MickeyWzt/prscout/actions/workflows/ci.yml/badge.svg)](https://github.com/MickeyWzt/prscout/actions/workflows/ci.yml)
+
 PRScout helps developers find realistic pull request entry points in GitHub
 repositories.
 
