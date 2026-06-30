@@ -1,0 +1,38 @@
+PRScout report for ev-flow/quark-engine
+Score: 98/100 - strong
+
+Why this may be a good target
+- Repository is not archived.
+- Maintained recently; last push was 0 days ago.
+- README is present.
+- License metadata is present.
+- Issue templates are present.
+- GitHub Actions workflows are present.
+- Found 2 promising issue candidates.
+
+Risks to check
+- Contribution guide was not found.
+
+Likely test commands
+- python -m pytest
+
+Best entry points
+1. #830 -- Behavior not detected when the data flow propagates through member fields
+   Fit: 80/100 | Risk: low
+   Labels: bug
+   Why: bug label, detailed issue body, clear reproduction or expected behavior, not assigned, no discussion noise
+   Link: https://github.com/ev-flow/quark-engine/issues/830
+2. #936 -- `--rule` default path validated even when unused
+   Fit: 79/100 | Risk: medium
+   Labels: bug, good first issue
+   Why: beginner-friendly label, bug label, detailed issue body, clear reproduction or expected behavior, not assigned
+   Watch out: possible open PR overlap
+   Link: https://github.com/ev-flow/quark-engine/issues/936
+
+Contributor checklist
+- Read the contribution guide if present.
+- Check open PRs for overlap before coding.
+- Reproduce the issue locally.
+- Keep the fix narrow and add a regression test.
+- Write a PR body that explains root cause, change, and validation.
+

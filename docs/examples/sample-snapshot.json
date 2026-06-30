@@ -1,0 +1,46 @@
+{
+  "ref": {
+    "owner": "example",
+    "name": "project"
+  },
+  "repo": {
+    "full_name": "example/project",
+    "archived": false,
+    "pushed_at": "2999-01-01T00:00:00Z",
+    "license": {
+      "key": "mit"
+    }
+  },
+  "root_files": [
+    "pyproject.toml"
+  ],
+  "files": {
+    "readme": true,
+    "contributing": false,
+    "license": true,
+    "issue_templates": true,
+    "workflows": true
+  },
+  "readme": "Run pytest.",
+  "issues": [
+    {
+      "number": 42,
+      "title": "CLI should explain rate limits",
+      "html_url": "https://github.com/example/project/issues/42",
+      "body": "Steps to reproduce and expected behavior are clear.",
+      "labels": [
+        {
+          "name": "good first issue"
+        },
+        {
+          "name": "bug"
+        }
+      ],
+      "comments": 0,
+      "assignees": [],
+      "updated_at": "2999-01-01T00:00:00Z"
+    }
+  ],
+  "pulls": []
+}
+
