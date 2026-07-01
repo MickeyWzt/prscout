@@ -80,7 +80,6 @@ class GitHubClient:
             "workflows": self._path_exists(repo_path, ".github/workflows"),
         }
 
-        readme = self._fetch_readme(repo_path)
         issues = self._get_json(
             f"{repo_path}/issues?state=open&sort=updated"
             f"&direction=desc&per_page={issue_limit}"
