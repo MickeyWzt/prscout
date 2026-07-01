@@ -98,3 +98,52 @@ def test_analyze_snapshot_returns_ranked_recommendation():
     assert report.verdict in {"promising", "strong"}
     assert report.recommendations[0].number == 1
     assert "python -m pytest" in report.test_commands
+
+
+def test_detect_make_tox_nox_commands():
+    commands = detect_test_commands(["Makefile", "tox.ini", "noxfile.py"], "")
+    assert "make test" in commands
+    assert "tox" in commands
+    assert "nox" in commands
+
+
+def test_detect_dotnet_commands():
+    commands = detect_test_commands(["src/App.sln"], "")
+    assert "dotnet test" in commands
+
+    commands = detect_test_commands(["src/Lib.csproj"], "")
+    assert "dotnet test" in commands
+
+    commands = detect_test_commands(["src/App.fsproj"], "")
+    assert "dotnet test" in commands
+
+
+def test_detect_ruby_php_commands():
+    commands = detect_test_commands(["Gemfile"], "")
+    assert "bundle exec rake test" in commands
+
+    commands = detect_test_commands(["composer.json"], "")
+    assert "composer test" in commands
+
+
+def test_detect_cmake_commands():
+    # Without CMakePresets.json, use conservative commands
+    commands = detect_test_commands(["CMakeLists.txt"], "")
+    assert "cmake -S . -B build" in commands[0]
+    assert "ctest --test-dir build" in commands[0]
+
+    # With CMakePresets.json, use preset-based commands
+    commands = detect_test_commands(["CMakeLists.txt", "CMakePresets.json"], "")
+    assert "cmake --preset default" in commands[0]
+    assert "ctest --preset default" in commands[0]
+
+
+def test_detect_just_rake_sbt():
+    commands = detect_test_commands(["justfile"], "")
+    assert "just test" in commands
+
+    commands = detect_test_commands(["Rakefile"], "")
+    assert "rake test" in commands
+
+    commands = detect_test_commands(["build.sbt"], "")
+    assert "sbt test" in commands

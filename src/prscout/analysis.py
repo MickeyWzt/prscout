@@ -240,6 +240,29 @@ def detect_test_commands(root_files: list[str], readme: str) -> list[str]:
         commands.append("mvn test")
     if "build.gradle" in files or "build.gradle.kts" in files:
         commands.append("./gradlew test")
+    if "makefile" in files:
+        commands.append("make test")
+    if "tox.ini" in files:
+        commands.append("tox")
+    if "noxfile.py" in files:
+        commands.append("nox")
+    if any(f.endswith(".sln") or f.endswith(".csproj") or f.endswith(".fsproj") for f in files):
+        commands.append("dotnet test")
+    if any(f.startswith("gem") for f in files if "gemfile" in f):
+        commands.append("bundle exec rake test")
+    if "composer.json" in files:
+        commands.append("composer test")
+    if "build.sbt" in files:
+        commands.append("sbt test")
+    if "cmakelists.txt" in files:
+        if "cmakepresets.json" in files:
+            commands.append("cmake --preset default && ctest --preset default")
+        else:
+            commands.append("cmake -S . -B build && cmake --build build && ctest --test-dir build")
+    if "justfile" in files:
+        commands.append("just test")
+    if "rakefile" in files:
+        commands.append("rake test")
 
     return dedupe(commands)
 
