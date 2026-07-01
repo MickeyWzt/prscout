@@ -24,7 +24,13 @@ and find work that maintainers are more likely to appreciate.
 
 ## Install
 
-From a local checkout:
+From PyPI:
+
+```bash
+python -m pip install prscout
+```
+
+For local development from a checkout:
 
 ```bash
 python -m pip install -e .
