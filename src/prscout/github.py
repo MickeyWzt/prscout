@@ -126,12 +126,26 @@ class GitHubClient:
                     self._sleep_before_retry(attempt)
                     continue
                 message = exc.read().decode("utf-8", errors="replace")
+                if exc.code == 401:
+                    raise GitHubAPIError(
+                        "Authentication failed (HTTP 401). "
+                        "Make sure your GitHub token is valid."
+                    ) from exc
                 if exc.code == 403 and "rate limit" in message.lower():
                     raise GitHubAPIError(
                         "GitHub rate limit reached. Set GITHUB_TOKEN and try again."
                     ) from exc
+                if exc.code == 403:
+                    raise GitHubAPIError(
+                        "Access denied (HTTP 403). "
+                        "You may not have permission for this resource."
+                    ) from exc
                 if exc.code == 404:
                     raise GitHubAPIError("Repository or API path was not found.") from exc
+                if exc.code == 422:
+                    raise GitHubAPIError(
+                        "Request was invalid (HTTP 422). This may be a GitHub API issue."
+                    ) from exc
                 raise GitHubAPIError(f"GitHub API error {exc.code}: {message}") from exc
             except (
                 TimeoutError,
@@ -145,10 +159,13 @@ class GitHubClient:
                     continue
                 reason = getattr(exc, "reason", exc)
                 raise GitHubAPIError(
-                    f"Could not reach GitHub while requesting {path}: {reason}"
+                    f"Could not reach GitHub while requesting {path}. "
+                    f"Network error: {reason}. Check your internet connection."
                 ) from exc
 
-        raise GitHubAPIError(f"Could not reach GitHub while requesting {path}.")
+        raise GitHubAPIError(
+            f"Could not reach GitHub while requesting {path}. Check your internet connection."
+        )
 
     def _sleep_before_retry(self, attempt: int) -> None:
         time.sleep(0.5 * (attempt + 1))
