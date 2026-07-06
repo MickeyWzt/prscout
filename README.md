@@ -73,6 +73,12 @@ JSON output is available for automation:
 prscout ev-flow/quark-engine --json
 ```
 
+Require stronger issue recommendations:
+
+```bash
+prscout ev-flow/quark-engine --min-fit 70
+```
+
 Try the bundled offline example without calling GitHub:
 
 ```bash
