@@ -28,7 +28,11 @@ BUG_LABELS = {"bug", "defect", "regression"}
 DOC_LABELS = {"documentation", "docs"}
 
 
-def analyze_snapshot(snapshot: JsonDict, recommendation_limit: int = 5) -> RepoReport:
+def analyze_snapshot(
+    snapshot: JsonDict,
+    recommendation_limit: int = 5,
+    minimum_fit: int = 45,
+) -> RepoReport:
     repo = snapshot.get("repo", {})
     files = snapshot.get("files", {})
     root_files = snapshot.get("root_files", [])
@@ -36,7 +40,12 @@ def analyze_snapshot(snapshot: JsonDict, recommendation_limit: int = 5) -> RepoR
     issues = snapshot.get("issues", [])
     pulls = snapshot.get("pulls", [])
 
-    recommendations = recommend_issues(issues, pulls, recommendation_limit)
+    recommendations = recommend_issues(
+        issues,
+        pulls,
+        recommendation_limit,
+        minimum_fit=minimum_fit,
+    )
     test_commands = detect_test_commands(root_files, readme)
     score, summary, risks = score_repository(repo, files, recommendations)
 
@@ -122,13 +131,14 @@ def recommend_issues(
     issues: list[JsonDict],
     pulls: list[JsonDict],
     limit: int,
+    minimum_fit: int = 45,
 ) -> list[IssueRecommendation]:
     scored = []
     for issue in issues:
         if issue.get("pull_request"):
             continue
         recommendation = score_issue(issue, pulls)
-        if recommendation.fit >= 45:
+        if recommendation.fit >= minimum_fit:
             scored.append(recommendation)
 
     scored.sort(key=lambda item: item.fit, reverse=True)

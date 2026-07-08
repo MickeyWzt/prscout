@@ -64,6 +64,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=2,
         help="Retries for transient GitHub network errors. Default: 2.",
     )
+    parser.add_argument(
+        "--min-fit",
+        type=int,
+        default=45,
+        help="Minimum recommendation fit score to include. Range: 0-100. Default: 45.",
+    )
     return parser
 
 
@@ -73,10 +79,16 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.limit < 1:
         parser.error("--limit must be at least 1")
+    if not 0 <= args.min_fit <= 100:
+        parser.error("--min-fit must be between 0 and 100")
 
     try:
         snapshot = load_snapshot(args)
-        report = analyze_snapshot(snapshot, recommendation_limit=args.limit)
+        report = analyze_snapshot(
+            snapshot,
+            recommendation_limit=args.limit,
+            minimum_fit=args.min_fit,
+        )
     except (GitHubAPIError, OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"prscout: {exc}", file=sys.stderr)
         return 2

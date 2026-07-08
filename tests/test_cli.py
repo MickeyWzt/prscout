@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from prscout.cli import main
 
 
@@ -65,4 +67,12 @@ def test_cli_snapshot_json_output(tmp_path, capsys):
     assert exit_code == 0
     assert data["repository"] == "example/project"
     assert data["recommendations"][0]["number"] == 42
+
+
+def test_cli_rejects_out_of_range_min_fit(tmp_path):
+    snapshot = tmp_path / "snapshot.json"
+    write_snapshot(snapshot)
+
+    with pytest.raises(SystemExit):
+        main(["--snapshot", str(snapshot), "--min-fit", "101"])
 

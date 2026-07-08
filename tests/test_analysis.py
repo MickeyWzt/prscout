@@ -100,6 +100,46 @@ def test_analyze_snapshot_returns_ranked_recommendation():
     assert "python -m pytest" in report.test_commands
 
 
+def test_analyze_snapshot_respects_minimum_fit():
+    snapshot = {
+        "ref": {"owner": "example", "name": "project"},
+        "repo": {
+            "full_name": "example/project",
+            "archived": False,
+            "pushed_at": "2999-01-01T00:00:00Z",
+            "license": {"key": "mit"},
+        },
+        "root_files": ["pyproject.toml"],
+        "files": {
+            "readme": True,
+            "contributing": True,
+            "license": True,
+            "issue_templates": True,
+            "workflows": True,
+        },
+        "readme": "Run pytest.",
+        "issues": [
+            {
+                "number": 1,
+                "title": "Document contributor workflow",
+                "html_url": "https://github.com/example/project/issues/1",
+                "body": "A" * 200,
+                "labels": [{"name": "documentation"}],
+                "comments": 1,
+                "assignees": [],
+                "updated_at": "2999-01-01T00:00:00Z",
+            }
+        ],
+        "pulls": [],
+    }
+
+    default_report = analyze_snapshot(snapshot)
+    strict_report = analyze_snapshot(snapshot, minimum_fit=70)
+
+    assert [item.number for item in default_report.recommendations] == [1]
+    assert strict_report.recommendations == []
+
+
 def test_detect_make_tox_nox_commands():
     commands = detect_test_commands(["Makefile", "tox.ini", "noxfile.py"], "")
     assert "make test" in commands
