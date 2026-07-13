@@ -1,0 +1,29 @@
+﻿PRScout report for MickeyWzt/prscout
+Score: 100/100 - strong
+
+Why this may be a good target
+- Repository is not archived.
+- Maintained recently; last push was 4 days ago.
+- README is present.
+- License metadata is present.
+- Contribution guide is present.
+- Issue templates are present.
+- GitHub Actions workflows are present.
+- Found 1 promising issue candidates.
+
+Likely test commands
+- python -m pytest
+
+Best entry points
+1. #3 -- Add real-world sample snapshots for documentation
+   Fit: 88/100 | Risk: low
+   Labels: documentation, help wanted
+   Why: help-wanted label, documentation label, detailed issue body, not assigned, no discussion noise
+   Link: https://github.com/MickeyWzt/prscout/issues/3
+
+Contributor checklist
+- Read the contribution guide if present.
+- Check open PRs for overlap before coding.
+- Reproduce the issue locally.
+- Keep the fix narrow and add a regression test.
+- Write a PR body that explains root cause, change, and validation.
