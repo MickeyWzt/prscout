@@ -85,6 +85,16 @@ Try the bundled offline example without calling GitHub:
 prscout --snapshot docs/examples/sample-snapshot.json
 ```
 
+The bundled `sample-snapshot.json` stays synthetic and tiny for offline tests.
+For a real public example captured with `--save-snapshot`, try:
+
+```bash
+prscout --snapshot docs/examples/prscout-snapshot.json
+```
+
+The matching text output is checked in at
+`docs/examples/prscout-report.txt`.
+
 ## What PRScout Looks For
 
 PRScout favors repositories that have:
@@ -127,7 +137,7 @@ python -m pytest
 ## Roadmap
 
 - Detect more test commands from package files.
-- Add `--save-snapshot` for reproducible offline reports.
+- Expand the curated real-world example snapshots.
 - Add maintainer-friendly issue quality explanations.
 - Add a small web demo after the CLI stabilizes.
 
